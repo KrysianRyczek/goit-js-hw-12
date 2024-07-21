@@ -128,6 +128,13 @@ window.addEventListener("click", event => {
         if (event.target.id==="submit") {
             newPageIndex=1
             url = new URL(form.querySelector("#img").value.trim(), newPageIndex)
+                if (document.querySelector("#gallery").hasChildNodes()) {
+                    const childs = document.querySelectorAll("#gallery > li");
+                    childs.forEach(child => child.remove()); 
+                }
+                if(document.querySelector("#btnNext") !== null){
+                    document.querySelector("#btnNext").remove();
+                }
         }
         if (document.querySelector("#mesage") !== null) 
             document.querySelector("#mesage").remove();
@@ -137,6 +144,7 @@ window.addEventListener("click", event => {
             url.pageNumber = newPageIndex
             
             if(document.querySelectorAll("#gallery>li").length + url.limit > url.hits) {
+                document.querySelector("#btnNext").remove();
                 return iziToast.warning({
                     close: false,
                     position:'topCenter',
@@ -150,11 +158,7 @@ window.addEventListener("click", event => {
             }
         }
             
-        if (event.target.id==="submit" & document.querySelector("#gallery").hasChildNodes()) {
-            const childs = document.querySelectorAll("#gallery > li");
-            childs.forEach(child => child.remove());
-            document.querySelector("#btnNext").remove();
-        }
+
         
         const loader = document.querySelector("#loader")
         loader.classList.add("loader")
